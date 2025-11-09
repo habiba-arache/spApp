@@ -11,8 +11,8 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String fullName;
+    @Column(unique = true, nullable = false)
     private String email;
     private String gender;
     protected String password;
@@ -22,10 +22,13 @@ public class User {
     private int age;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Task> tasks;
+    private List<WorkOut> workout;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<RecommandedFood> foods;
+    private List<WeightRecord> weightRecords = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Diet> diet;
 
     public User() {}
 
@@ -38,8 +41,8 @@ public class User {
         this.goalWeight = goalWeight;
         this.age = age;
         this.gender = gender;
-        this.foods = new ArrayList<>();
-        this.tasks = new ArrayList<>();
+        this.diet = new ArrayList<>();
+        this.workout = new ArrayList<>();
     }
 
     // Getters and setters
@@ -70,9 +73,12 @@ public class User {
     public String getGender() { return gender; }
     public void setGender(String gender) { this.gender = gender; }
 
-    public List<Task> getTasks() { return tasks; }
-    public void setTasks(List<Task> tasks) { this.tasks = tasks; }
+    public List<WorkOut> getTasks() { return workout; }
+    public void setTasks(List<WorkOut> tasks) { this.workout = tasks; }
 
-    public List<RecommandedFood> getRecommandedFoods() { return foods; }
-    public void setRecommandedFoods(List<RecommandedFood> recommandedFoods) { this.foods = recommandedFoods; }
+    public List<Diet> getDiet() { return diet; }
+    public void setDiet(List<Diet> diet) { this.diet = diet; }
+
+    public List<WeightRecord> getWeightRecords() { return weightRecords; }
+    public void setWeightRecords(List<WeightRecord> weightRecords) { this.weightRecords = weightRecords; }
 }

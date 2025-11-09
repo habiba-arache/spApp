@@ -15,7 +15,7 @@ public class UserService {
         }
         return null;
     }
-    public void register(User user) throws SQLException {
+    public void register(User user) throws Exception {
         userDao.createUser(user);
     }
 

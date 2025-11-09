@@ -3,8 +3,8 @@ package com.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "tasks")
-public class Task {
+@Table(name = "workout")
+public class WorkOut {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,10 +15,10 @@ public class Task {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Task() {
+    public WorkOut() {
     }
 
-    public Task(String name, String description, User user) {
+    public WorkOut(String name, String description, User user) {
         this.name = name;
         this.description = description;
         this.user = user;
@@ -58,7 +58,7 @@ public class Task {
         return id;
     }
 
-    public boolean isStatus() {
+    public boolean isComplete() {
         return isComplete;
     }
 }
