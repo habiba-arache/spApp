@@ -51,6 +51,12 @@ public class UserDao {
             e.printStackTrace();
         }
     }
+    public User getUserById(Long id) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.get(User.class, id);
+        }
+    }
+
 
     public void deleteUser(Long id) {
         Transaction transaction = null;
