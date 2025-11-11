@@ -3,87 +3,113 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Inscription</title>
-
+    <title>Inscription - SportsProgress</title>
     <style>
+        /* ====== GLOBAL ====== */
         body {
             font-family: "Poppins", sans-serif;
-            background: linear-gradient(135deg, #4A90E2, #50C9C3);
+            background: linear-gradient(135deg, #0D0D0D, #1A1A1A);
             margin: 0;
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* 🔹 Alignement en haut */
-            overflow-y: auto; /* 🔹 Permet le défilement si la page est longue */
-            padding: 40px 0;
+            align-items: center;
+            padding: 40px;
+            color: #EAEAEA;
         }
 
+        /* ====== CONTAINER ====== */
         .signup-container {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
             padding: 40px 50px;
-            border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-            width: 380px;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(140, 82, 255, 0.3);
+            width: 400px;
             box-sizing: border-box;
+            transition: all 0.3s ease;
         }
 
+        .signup-container:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(140, 82, 255, 0.5);
+        }
+
+        /* ====== TITLE ====== */
         h1 {
             text-align: center;
-            color: #333;
-            margin-bottom: 25px;
+            color: #B388FF;
+            font-size: 28px;
+            margin-bottom: 30px;
+            letter-spacing: 0.5px;
         }
 
+        /* ====== LABELS & INPUTS ====== */
         label {
             display: block;
             margin-bottom: 6px;
             font-weight: 600;
-            color: #444;
+            color: #E0E0E0;
         }
 
-        input, select {
+        input {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
+            padding: 12px;
+            margin-bottom: 18px;
+            border-radius: 10px;
+            border: 1px solid #3C3C3C;
+            background-color: #1C1C1C;
+            color: #F5F5F5;
             font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
         }
 
+        input:focus {
+            border-color: #B388FF;
+            box-shadow: 0 0 6px rgba(179, 136, 255, 0.4);
+        }
+
+        /* ====== BUTTON ====== */
         button {
             width: 100%;
             padding: 12px;
-            background-color: #4A90E2;
-            color: white;
+            background: linear-gradient(135deg, #7C4DFF, #B388FF);
+            color: #fff;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         button:hover {
-            background-color: #357ABD;
+            background: linear-gradient(135deg, #6A3DE8, #A177FF);
+            transform: translateY(-2px);
         }
 
+        /* ====== ERROR MESSAGE ====== */
         .error-message {
-            color: #D32F2F;
-            background-color: #FFEBEE;
-            border: 1px solid #D32F2F;
+            color: #FF8A80;
+            background-color: rgba(255, 82, 82, 0.1);
+            border: 1px solid #FF5252;
             padding: 10px;
-            border-radius: 6px;
+            border-radius: 8px;
             margin-bottom: 15px;
             text-align: center;
         }
 
+        /* ====== FOOTER LINK ====== */
         .footer-link {
             text-align: center;
-            margin-top: 15px;
+            margin-top: 20px;
             font-size: 14px;
+            color: #CCCCCC;
         }
 
         .footer-link a {
-            color: #4A90E2;
+            color: #B388FF;
             text-decoration: none;
             font-weight: 600;
         }
@@ -92,10 +118,10 @@
             text-decoration: underline;
         }
 
-        @media (max-height: 700px) {
-            body {
-                align-items: flex-start;
-                padding: 20px;
+        @media (max-width: 480px) {
+            .signup-container {
+                width: 90%;
+                padding: 30px 25px;
             }
         }
     </style>
@@ -104,8 +130,8 @@
         function validateForm() {
             const weight = document.getElementById("weight").value;
             const goalWeight = document.getElementById("goalWeight").value;
-            if (weight < 0 || goalWeight < 0 ) {
-                alert("❌ Les valeurs de poids  ne peut pas être négative !");
+            if (weight < 0 || goalWeight < 0) {
+                alert("❌ Les valeurs de poids ne peuvent pas être négatives !");
                 return false;
             }
             return true;
@@ -115,11 +141,11 @@
 
 <body>
 <div class="signup-container">
-    <h1>Créer un compte</h1>
+    <h1>Créer un compte ✨</h1>
 
     <% String error = (String) request.getAttribute("errorMessage"); %>
     <% if (error != null) { %>
-        <div class="error-message"><%= error %></div>
+    <div class="error-message"><%= error %></div>
     <% } %>
 
     <form action="auth?action=register" method="post" onsubmit="return validateForm()">

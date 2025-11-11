@@ -18,8 +18,6 @@ public class RecommendationService {
 
     public void generateRecommendations(User user) {
 
-       // double bmi = calculateBMI(user.getWeight(), user.getHeight());
-
         // Remove old recommendations
         dietDao.deleteByUser(user);
         workoutDao.deleteByUser(user);
@@ -50,10 +48,5 @@ public class RecommendationService {
         for (Diet d : diets) dietDao.save(d);
         for (WorkOut w : workouts) workoutDao.save(w);
         userDao.updateUser(user);
-    }
-
-    private double calculateBMI(double weightKg, double heightCm) {
-        double heightM = heightCm / 100.0;
-        return weightKg / (heightM * heightM);
     }
 }

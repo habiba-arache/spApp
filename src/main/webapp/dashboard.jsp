@@ -5,38 +5,53 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Tableau de bord</title>
+    <title>Tableau de bord - SportsProgress</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* === GLOBAL === */
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #e3f2fd, #ffffff);
+            font-family: "Poppins", sans-serif;
             margin: 0;
             padding: 0;
-            color: #333;
+            background: linear-gradient(135deg, #0D0D0D, #1A1A1A);
+            color: #EAEAEA;
         }
 
+        /* === HEADER === */
         header {
-            background: #1976d2;
-            color: white;
+            background: linear-gradient(90deg, #7C4DFF, #B388FF);
             padding: 20px 40px;
+            max-height: 80px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            justify-content: space-between;
+            box-shadow: 0 4px 20px rgba(140, 82, 255, 0.3);
+            position: relative;
+        }
+
+        header img {
+            height: 110px;
+            width: 120px;
+            border-radius: 50%;
+            margin-left: -30px;
+            border: #5E35B1 solid 2px;
         }
 
         header h2 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
             margin: 0;
             font-size: 24px;
+            color: #fff;
+            letter-spacing: 0.5px;
         }
 
         header button {
-            background: white;
-            color: #1976d2;
+            background: #fff;
+            color: #7C4DFF;
             border: none;
-            padding: 8px 15px;
+            padding: 10px 18px;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
@@ -44,9 +59,11 @@
         }
 
         header button:hover {
-            background: #e3f2fd;
+            background: #EAEAEA;
+            color: #5E35B1;
         }
 
+        /* === MAIN CONTAINER === */
         .container {
             max-width: 1100px;
             margin: 40px auto;
@@ -55,123 +72,136 @@
 
         /* === CARD STYLE === */
         section {
-            background: white;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
             border-radius: 15px;
             padding: 25px 30px;
             margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.2s ease;
+            box-shadow: 0 8px 25px rgba(140, 82, 255, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         section:hover {
             transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(179, 136, 255, 0.3);
         }
 
         h3 {
-            color: #1976d2;
-            border-bottom: 2px solid #e3f2fd;
+            color: #B388FF;
+            border-bottom: 2px solid rgba(179, 136, 255, 0.2);
             padding-bottom: 8px;
             margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        h4 {
+            color: #D1C4E9;
+            margin-top: 10px;
         }
 
         /* === TABLE === */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+            color: #EAEAEA;
         }
 
         th, td {
             padding: 12px 15px;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             text-align: center;
         }
 
         th {
-            background: #f0f4f8;
-            color: #333;
+            background: rgba(140, 82, 255, 0.2);
         }
 
         tr:hover {
-            background: #f9f9f9;
+            background: rgba(255, 255, 255, 0.05);
         }
 
-        /* === FORM === */
-        form {
-            display: inline-block;
-        }
-
-        input[type="number"], input[type="text"], input[type="email"], input[type="password"], select {
-            padding: 8px 10px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            width: 180px;
-            font-family: inherit;
-        }
-
+        /* === BUTTON === */
         button {
-            background-color: #1976d2;
-            color: white;
+            background: linear-gradient(135deg, #7C4DFF, #B388FF);
+            color: #fff;
             border: none;
-            padding: 8px 16px;
+            padding: 10px 16px;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         button:hover {
-            background-color: #1565c0;
+            background: linear-gradient(135deg, #6A3DE8, #A177FF);
+            transform: translateY(-2px);
         }
 
-        /* === WEIGHT CHART === */
+        /* === INPUTS === */
+        input[type="number"], input[type="text"], input[type="email"], input[type="password"] {
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            width: 200px;
+            margin-right: 10px;
+        }
+
+        input:focus {
+            border-color: #B388FF;
+            box-shadow: 0 0 5px rgba(179, 136, 255, 0.5);
+            outline: none;
+        }
+
+        /* === LIST === */
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        ul li strong {
+            color: #B388FF;
+        }
+
+        input[type="checkbox"] {
+            transform: scale(1.3);
+            accent-color: #B388FF;
+            margin-right: 10px;
+        }
+
+        /* === CHART === */
         .chart-container {
             max-width: 600px;
             margin: 20px auto;
         }
 
-        /* === CHECKBOX === */
-        input[type="checkbox"] {
-            transform: scale(1.3);
-            margin-right: 10px;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        ul li {
-            background: #f8f9fa;
-            margin-bottom: 10px;
-            padding: 10px 15px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-        }
-
-        strong {
-            color: #1565c0;
-        }
-
         /* === RESPONSIVE === */
         @media (max-width: 768px) {
+            header h2 {
+                position: static;
+                transform: none;
+                text-align: center;
+                margin: 10px 0;
+            }
+
             .container {
                 padding: 0 10px;
             }
 
-            table, th, td {
-                font-size: 13px;
-            }
-
-            button, input[type="number"] {
+            button, input {
                 width: 100%;
-                margin-top: 5px;
-            }
-
-            ul li {
-                flex-direction: column;
-                align-items: flex-start;
+                margin-top: 10px;
             }
         }
     </style>
@@ -191,15 +221,13 @@
 %>
 
 <header>
+    <img src="images/logo.png" alt="Logo">
     <h2>Bienvenue, <%= user.getFullName() %> 👋</h2>
-    <form action="logout.jsp" method="post">
-        <button type="submit">Se déconnecter</button>
-    </form>
+    <a href="auth?action=logout"><button>Se déconnecter</button></a>
 </header>
 
 <div class="container">
 
-    <!-- Workouts -->
     <section>
         <h3>🏋️‍♂️ Vos entraînements</h3>
         <ul>
@@ -218,15 +246,14 @@
                 </form>
             </li>
             <%
-                    }
-                } else {
+                }
+            } else {
             %>
-            <li>Aucun entraînement pour le moment.</li>
+            <li>Aucun entraînement pour le moment</li>
             <% } %>
         </ul>
     </section>
 
-    <!-- Diet -->
     <section>
         <h3>🥗 Vos recommandations alimentaires</h3>
         <%
@@ -240,10 +267,7 @@
                 for (Diet diet : diets) {
                     if (diet.getType().equalsIgnoreCase(type)) {
             %>
-            <li>
-                <strong><%= diet.getFoodName() %></strong> — <%= diet.getFoodDescription() %>
-                (<%= diet.getCalories() %> kcal)
-            </li>
+            <li><strong><%= diet.getFoodName() %></strong> — <%= diet.getFoodDescription() %> (<%= diet.getCalories() %> kcal)</li>
             <%
                     }
                 }
@@ -257,7 +281,6 @@
         <% } %>
     </section>
 
-    <!-- Weight Update -->
     <section>
         <h3>⚖️ Mettre à jour votre poids</h3>
         <form action="dashboard" method="post">
@@ -267,58 +290,6 @@
             <button type="submit">Mettre à jour</button>
         </form>
     </section>
-
-<%-- SECTION: Vérification du poids et messages personnalisés --%>
-<%
-    double currentWeight = user.getWeight();
-    double goalWeight = user.getGoalWeight();
-    double diff = currentWeight - goalWeight;
-%>
-
-<% if (Math.abs(diff) < 0.5) { %>
-    <!-- 🟢 Cas 1 : Poids parfait -->
-    <section style="background: #e8f5e9; border-left: 6px solid #43a047; padding: 20px; border-radius: 10px;">
-        <h3 style="color: #2e7d32;">🎉 Félicitations <%= user.getFullName() %> !</h3>
-        <p style="font-size: 16px; color: #333;">
-            Vous avez atteint votre poids idéal de
-            <strong><%= goalWeight %> kg</strong> ! 🏆
-        </p>
-        <p style="font-size: 15px; color: #555;">
-            Continuez à suivre le même programme d’entraînement et le même régime alimentaire
-            pour <strong>maintenir</strong> votre forme actuelle. 👏
-        </p>
-    </section>
-
-<% } else if (diff > 0.5) { %>
-    <!-- 🟠 Cas 2 : En surpoids -->
-    <section style="background: #fff8e1; border-left: 6px solid #fbc02d; padding: 20px; border-radius: 10px;">
-        <h3 style="color: #f57c00;">⚖️ Objectif en cours...</h3>
-        <p style="font-size: 16px; color: #333;">
-            Votre poids actuel est de <strong><%= currentWeight %> kg</strong>.<br>
-            Il vous reste <strong><%= String.format("%.1f", diff) %> kg</strong> à perdre pour atteindre votre objectif de
-            <strong><%= goalWeight %> kg</strong>.
-        </p>
-        <p style="font-size: 15px; color: #555;">
-            Continuez vos efforts 💪 — votre discipline vous rapproche de votre objectif jour après jour.
-        </p>
-    </section>
-
-<% } else { %>
-    <!-- 🔵 Cas 3 : En sous-poids -->
-    <section style="background: #e3f2fd; border-left: 6px solid #2196f3; padding: 20px; border-radius: 10px;">
-        <h3 style="color: #1565c0;">🍽️ Attention <%= user.getFullName() %> !</h3>
-        <p style="font-size: 16px; color: #333;">
-            Votre poids actuel est de <strong><%= currentWeight %> kg</strong>, soit environ
-            <strong><%= String.format("%.1f", -diff) %> kg</strong> en dessous de votre poids cible de
-            <strong><%= goalWeight %> kg</strong>.
-        </p>
-        <p style="font-size: 15px; color: #555;">
-            Pensez à <strong>augmenter légèrement votre apport calorique</strong> et à consulter un diététicien si nécessaire
-            pour stabiliser votre poids. 🌿
-        </p>
-    </section>
-<% } %>
-
 
     <!-- Chart -->
     <section>
@@ -339,19 +310,15 @@
                 <td><%= w.getWeight() %></td>
             </tr>
             <%
-                    }
-                } else {
+                }
+            } else {
             %>
             <tr><td colspan="2">Aucun enregistrement pour l’instant.</td></tr>
             <% } %>
         </table>
     </section>
-
 </div>
 
-
-
-<!-- Chart.js Script -->
 <script>
     const labels = [
         <% if (weights != null && !weights.isEmpty()) {
@@ -359,7 +326,6 @@
         "<%= w.getDate() %>",
         <% } } %>
     ];
-
     const data = [
         <% if (weights != null && !weights.isEmpty()) {
             for (WeightRecord w : weights) { %>
@@ -377,21 +343,18 @@
                     label: 'Poids (kg)',
                     data: data,
                     fill: true,
-                    borderColor: '#1976d2',
-                    backgroundColor: 'rgba(25,118,210,0.2)',
+                    borderColor: '#B388FF',
+                    backgroundColor: 'rgba(179,136,255,0.2)',
                     tension: 0.3,
                     pointRadius: 5,
-                    pointBackgroundColor: '#1976d2'
+                    pointBackgroundColor: '#B388FF'
                 }]
             },
             options: {
-                responsive: true,
-                plugins: {
-                    legend: { display: true },
-                },
+                plugins: { legend: { display: true, labels: { color: "#EAEAEA" } } },
                 scales: {
-                    y: { title: { display: true, text: 'Poids (kg)' } },
-                    x: { title: { display: true, text: 'Date' } }
+                    x: { ticks: { color: "#CCC" }, title: { display: true, text: "Date", color: "#B388FF" } },
+                    y: { ticks: { color: "#CCC" }, title: { display: true, text: "Poids (kg)", color: "#B388FF" } }
                 }
             }
         });
