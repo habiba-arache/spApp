@@ -47,10 +47,7 @@ public class AuthController extends HttpServlet {
 
         // Safe parse with null checks
         user.setWeight(parseFloatSafe(request.getParameter("weight")));
-        user.setHeight(parseFloatSafe(request.getParameter("height")));
         user.setGoalWeight(parseFloatSafe(request.getParameter("goalWeight")));
-        user.setAge(parseIntSafe(request.getParameter("age")));
-        user.setGender(request.getParameter("gender"));
         //generate the recomandations in bg for the first time
 
         try {

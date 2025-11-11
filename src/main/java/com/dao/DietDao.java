@@ -15,7 +15,7 @@ public class DietDao {
         Transaction tx = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
-            session.save(diet);
+            session.persist(diet);
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();

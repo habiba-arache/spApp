@@ -18,7 +18,7 @@ public class RecommendationService {
 
     public void generateRecommendations(User user) {
 
-        double bmi = calculateBMI(user.getWeight(), user.getHeight());
+       // double bmi = calculateBMI(user.getWeight(), user.getHeight());
 
         // Remove old recommendations
         dietDao.deleteByUser(user);
@@ -27,12 +27,12 @@ public class RecommendationService {
         List<Diet> diets = new ArrayList<>();
         List<WorkOut> workouts = new ArrayList<>();
 
-        if (bmi < 18.5) { // Underweight
+        if (user.getWeight() < user.getGoalWeight()) { // Underweight
             diets.add(new Diet("Oatmeal", "High-calorie healthy breakfast", "breakfast", user, 350f));
             diets.add(new Diet("Peanut Butter Sandwich", "Protein and calories", "lunch", user, 400f));
             diets.add(new Diet("Chicken Pasta", "Carbs + protein for dinner", "dinner", user, 500f));
             workouts.add(new WorkOut("Light Strength Training", "Build lean muscle", user));
-        } else if (bmi >= 18.5 && bmi < 25) { // Normal
+        } else if (user.getWeight() == user.getGoalWeight()) { // Normal
             diets.add(new Diet("Balanced Breakfast", "Healthy start", "breakfast", user, 300f));
             diets.add(new Diet("Chicken & Vegetables", "Protein with fiber", "lunch", user, 450f));
             diets.add(new Diet("Grilled Fish & Rice", "Maintain weight", "dinner", user, 400f));

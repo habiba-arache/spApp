@@ -1,8 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%
-    // Invalider la session
-    session.invalidate();
+    // Vérifie si une session existe avant de l’invalider
+    if (session != null) {
+        session.invalidate();
+    }
 
-    // Rediriger vers la page de login
-    response.sendRedirect("login.jsp");
+    // Redirige vers la page de connexion après la déconnexion
+    response.sendRedirect("index.jsp");
 %>

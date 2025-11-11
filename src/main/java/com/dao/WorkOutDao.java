@@ -15,7 +15,7 @@ public class WorkOutDao {
         Transaction tx = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
-            session.save(workOut);
+            session.persist(workOut);
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
@@ -27,7 +27,7 @@ public class WorkOutDao {
         Transaction tx = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
-            session.update(workOut);
+            session.merge(workOut);
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
@@ -61,7 +61,7 @@ public class WorkOutDao {
 
     public WorkOut find(Long id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.get(WorkOut.class, id);
+            return session.find(WorkOut.class, id);
         }
     }
 

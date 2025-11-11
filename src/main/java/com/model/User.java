@@ -14,12 +14,9 @@ public class User {
     private String fullName;
     @Column(unique = true, nullable = false)
     private String email;
-    private String gender;
     protected String password;
     private float weight;
-    private float height;
     private float goalWeight;
-    private int age;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<WorkOut> workout;
@@ -37,10 +34,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.weight = weight;
-        this.height = height;
         this.goalWeight = goalWeight;
-        this.age = age;
-        this.gender = gender;
         this.diet = new ArrayList<>();
         this.workout = new ArrayList<>();
     }
@@ -61,17 +55,11 @@ public class User {
     public float getWeight() { return weight; }
     public void setWeight(float weight) { this.weight = weight; }
 
-    public float getHeight() { return height; }
-    public void setHeight(float height) { this.height = height; }
+
 
     public float getGoalWeight() { return goalWeight; }
     public void setGoalWeight(float goalWeight) { this.goalWeight = goalWeight; }
 
-    public int getAge() { return age; }
-    public void setAge(int age) { this.age = age; }
-
-    public String getGender() { return gender; }
-    public void setGender(String gender) { this.gender = gender; }
 
     public List<WorkOut> getTasks() { return workout; }
     public void setTasks(List<WorkOut> tasks) { this.workout = tasks; }
