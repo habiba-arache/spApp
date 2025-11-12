@@ -281,6 +281,7 @@
         <% } %>
     </section>
 
+
     <section>
         <h3>⚖️ Mettre à jour votre poids</h3>
         <form action="dashboard" method="post">
@@ -290,6 +291,58 @@
             <button type="submit">Mettre à jour</button>
         </form>
     </section>
+
+
+    <%-- SECTION: Vérification du poids et messages personnalisés (green/yellow/red theme) --%>
+    <%
+        double currentWeight = user.getWeight();
+        double goalWeight = user.getGoalWeight();
+        double diff = currentWeight - goalWeight;
+    %>
+
+    <% if (Math.abs(diff) < 0.5) { %>
+    <!-- 🟢 Cas 1 : Poids idéal -->
+    <section style="background: #e8f5e9; border-left: 6px solid #2e7d32; padding: 20px; border-radius: 10px;">
+        <h3 style="color: #1b5e20;">🎉 Félicitations <%= user.getFullName() %> !</h3>
+        <p style="font-size: 16px; color: #333;">
+            Vous avez atteint votre poids idéal de
+            <strong><%= goalWeight %> kg</strong> ! 🏆
+        </p>
+        <p style="font-size: 15px; color: #555;">
+            Continuez à suivre le même programme d’entraînement et le même régime alimentaire
+            pour <strong>maintenir</strong> votre forme actuelle. 👏
+        </p>
+    </section>
+
+    <% } else if (diff > 0.5) { %>
+    <!-- 🟡 Cas 2 : En surpoids -->
+    <section style="background: #fffde7; border-left: 6px solid #fbc02d; padding: 20px; border-radius: 10px;">
+        <h3 style="color: #f57f17;">⚖ Objectif en cours...</h3>
+        <p style="font-size: 16px; color: #333;">
+            Votre poids actuel est de <strong><%= currentWeight %> kg</strong>.<br>
+            Il vous reste <strong><%= String.format("%.1f", diff) %> kg</strong> à perdre pour atteindre votre objectif de
+            <strong><%= goalWeight %> kg</strong>.
+        </p>
+        <p style="font-size: 15px; color: #555;">
+            Continuez vos efforts 💪 — votre discipline vous rapproche de votre objectif jour après jour.
+        </p>
+    </section>
+
+    <% } else { %>
+    <!-- 🔴 Cas 3 : En sous-poids -->
+    <section style="background: #ffebee; border-left: 6px solid #d32f2f; padding: 20px; border-radius: 10px;">
+        <h3 style="color: #b71c1c;">🍽 Attention <%= user.getFullName() %> !</h3>
+        <p style="font-size: 16px; color: #333;">
+            Votre poids actuel est de <strong><%= currentWeight %> kg</strong>, soit environ
+            <strong><%= String.format("%.1f", -diff) %> kg</strong> en dessous de votre poids cible de
+            <strong><%= goalWeight %> kg</strong>.
+        </p>
+        <p style="font-size: 15px; color: #555;">
+            Pensez à <strong>augmenter légèrement votre apport calorique</strong> et à consulter un diététicien si nécessaire
+            pour stabiliser votre poids. 🌿
+        </p>
+    </section>
+    <% } %>
 
     <!-- Chart -->
     <section>
