@@ -54,7 +54,6 @@ public class AuthController extends HttpServlet {
             userService.register(user);
             // Registration success
             rec.generateRecommendations(user);
-//        request.getSession().setAttribute("user", user);
             //redirect to login
             response.sendRedirect("index.jsp");
         } catch (Exception e) {

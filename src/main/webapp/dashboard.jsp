@@ -1,6 +1,9 @@
 <%@ page import="com.model.User, com.model.WorkOut, com.model.Diet, com.model.WeightRecord" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  <!-- core JSTL tags -->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>  <!-- string functions -->
+<%@ page isELIgnored="false" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -214,10 +217,6 @@
         response.sendRedirect("login.jsp");
         return;
     }
-
-    List<WorkOut> workouts = (List<WorkOut>) request.getAttribute("workouts");
-    List<Diet> diets = (List<Diet>) request.getAttribute("diets");
-    List<WeightRecord> weights = (List<WeightRecord>) request.getAttribute("weights");
 %>
 
 <header>
@@ -227,66 +226,78 @@
 </header>
 
 <div class="container">
-
     <section>
         <h3>🏋️‍♂️ Vos entraînements</h3>
-        <ul>
-            <%
-                if (workouts != null && !workouts.isEmpty()) {
-                    for (WorkOut w : workouts) {
-            %>
-            <li>
-                <form action="dashboard" method="post">
-                    <input type="hidden" name="action" value="toggle_workout">
-                    <input type="hidden" name="id" value="<%= w.getId() %>">
-                    <input type="hidden" name="completed" value="<%= !w.isComplete() %>">
-                    <input type="checkbox" onchange="this.form.submit()" <%= w.isComplete() ? "checked" : "" %> >
-                    <span><strong><%= w.getName() %></strong> — <%= w.getDescription() %>
-                        (<%= w.isComplete() ? "✔ Terminé" : "⏳ En cours" %>)</span>
-                </form>
-            </li>
-            <%
-                }
-            } else {
-            %>
-            <li>Aucun entraînement pour le moment</li>
-            <% } %>
-        </ul>
+
+        <c:choose>
+            <c:when test="${not empty workouts}">
+                <ul>
+                    <c:forEach var="w" items="${workouts}">
+                        <li>
+                            <form action="dashboard" method="post">
+                                <input type="hidden" name="action" value="toggle_workout">
+                                <input type="hidden" name="id" value="${w.id}">
+                                <input type="hidden" name="completed" value="${not w.complete}">
+
+                                <input
+                                        type="checkbox"
+                                        onchange="this.form.submit()"
+                                        <c:if test="${w.complete}">checked</c:if>
+                                >
+
+                                <span>
+                                <strong>${w.name}</strong> — ${w.description}
+                                <c:choose>
+                                    <c:when test="${w.complete}">✔ Terminé</c:when>
+                                    <c:otherwise>⏳ En cours</c:otherwise>
+                                </c:choose>
+                            </span>
+                            </form>
+                        </li>
+                    </c:forEach>
+                </ul>
+            </c:when>
+
+            <c:otherwise>
+                <ul>
+                    <li>Aucun entraînement pour le moment</li>
+                </ul>
+            </c:otherwise>
+        </c:choose>
     </section>
+
 
     <section>
         <h3>🥗 Vos recommandations alimentaires</h3>
-        <%
-            if (diets != null && !diets.isEmpty()) {
-                String[] types = {"breakfast", "lunch", "dinner"};
-                for (String type : types) {
-        %>
-        <h4><%= type.substring(0,1).toUpperCase() + type.substring(1) %></h4>
-        <ul>
-            <%
-                for (Diet diet : diets) {
-                    if (diet.getType().equalsIgnoreCase(type)) {
-            %>
-            <li><strong><%= diet.getFoodName() %></strong> — <%= diet.getFoodDescription() %> (<%= diet.getCalories() %> kcal)</li>
-            <%
-                    }
-                }
-            %>
-        </ul>
-        <%
-            }
-        } else {
-        %>
-        <p>Aucune recommandation disponible.</p>
-        <% } %>
-    </section>
 
+        <c:choose>
+            <c:when test="${not empty diets}">
+                <c:set var="types" value="breakfast,lunch,dinner" />
+                <c:forEach var="type" items="${fn:split(types, ',')}">
+                    <h4>${fn:toUpperCase(fn:substring(type, 0, 1))}${fn:substring(type, 1, fn:length(type))}</h4>
+                    <ul>
+                        <c:forEach var="diet" items="${diets}">
+                            <c:if test="${fn:toLowerCase(diet.type) eq fn:toLowerCase(type)}">
+                                <li>
+                                    <strong>${diet.foodName}</strong> — ${diet.foodDescription} (${diet.calories} kcal)
+                                </li>
+                            </c:if>
+                        </c:forEach>
+                    </ul>
+                </c:forEach>
+            </c:when>
+
+            <c:otherwise>
+                <p>Aucune recommandation disponible.</p>
+            </c:otherwise>
+        </c:choose>
+    </section>
 
     <section>
         <h3>⚖️ Mettre à jour votre poids</h3>
         <form action="dashboard" method="post">
             <input type="hidden" name="action" value="update_weight">
-            <p>Poids actuel : <strong><%= user.getWeight() %> kg</strong></p>
+            <p>Poids actuel : <strong>${ user.getWeight()} kg</strong></p>
             <input type="number" name="weight" step="0.1" placeholder="Entrer le nouveau poids" required>
             <button type="submit">Mettre à jour</button>
         </form>
@@ -344,75 +355,87 @@
     </section>
     <% } %>
 
-    <!-- Chart -->
     <section>
         <h3>📈 Évolution de votre poids</h3>
+
         <div class="chart-container">
             <canvas id="weightChart"></canvas>
         </div>
 
         <h4>Historique</h4>
         <table>
-            <tr><th>Date</th><th>Poids (kg)</th></tr>
-            <%
-                if (weights != null && !weights.isEmpty()) {
-                    for (WeightRecord w : weights) {
-            %>
             <tr>
-                <td><%= w.getDate() %></td>
-                <td><%= w.getWeight() %></td>
+                <th>Date</th>
+                <th>Poids (kg)</th>
             </tr>
-            <%
-                }
-            } else {
-            %>
-            <tr><td colspan="2">Aucun enregistrement pour l’instant.</td></tr>
-            <% } %>
+             <c:choose>
+                <c:when test="${not empty weights}">
+                    <c:forEach var="w" items="${weights}">
+                        <tr>
+                            <td>${w.date}</td>
+                            <td>${w.weight}</td>
+                        </tr>
+                    </c:forEach>
+                </c:when>
+                <c:otherwise>
+                    <tr>
+                        <td colspan="2">Aucun enregistrement pour l’instant.</td>
+                    </tr>
+                </c:otherwise>
+            </c:choose>
         </table>
     </section>
-</div>
 
-<script>
-    const labels = [
-        <% if (weights != null && !weights.isEmpty()) {
-            for (WeightRecord w : weights) { %>
-        "<%= w.getDate() %>",
-        <% } } %>
-    ];
-    const data = [
-        <% if (weights != null && !weights.isEmpty()) {
-            for (WeightRecord w : weights) { %>
-        <%= w.getWeight() %>,
-        <% } } %>
-    ];
+    <!-- ============= chart script ============== -->
+    <script>
+        const labels = [
+            <c:forEach var="w" items="${weights}" varStatus="loop">
+            "${w.date}"<c:if test="${!loop.last}">,</c:if>
+            </c:forEach>
+        ];
 
-    if (labels.length > 0) {
-        const ctx = document.getElementById('weightChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Poids (kg)',
-                    data: data,
-                    fill: true,
-                    borderColor: '#B388FF',
-                    backgroundColor: 'rgba(179,136,255,0.2)',
-                    tension: 0.3,
-                    pointRadius: 5,
-                    pointBackgroundColor: '#B388FF'
-                }]
-            },
-            options: {
-                plugins: { legend: { display: true, labels: { color: "#EAEAEA" } } },
-                scales: {
-                    x: { ticks: { color: "#CCC" }, title: { display: true, text: "Date", color: "#B388FF" } },
-                    y: { ticks: { color: "#CCC" }, title: { display: true, text: "Poids (kg)", color: "#B388FF" } }
+        const data = [
+            <c:forEach var="w" items="${weights}" varStatus="loop">
+            ${w.weight}<c:if test="${!loop.last}">,</c:if>
+            </c:forEach>
+        ];
+
+        if (labels.length > 0) {
+            const ctx = document.getElementById('weightChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Poids (kg)',
+                        data: data,
+                        fill: true,
+                        borderColor: '#B388FF',
+                        backgroundColor: 'rgba(179,136,255,0.2)',
+                        tension: 0.3,
+                        pointRadius: 5,
+                        pointBackgroundColor: '#B388FF'
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: { display: true, labels: { color: "#EAEAEA" } }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: "#CCC" },
+                            title: { display: true, text: "Date", color: "#B388FF" }
+                        },
+                        y: {
+                            ticks: { color: "#CCC" },
+                            title: { display: true, text: "Poids (kg)", color: "#B388FF" }
+                        }
+                    }
                 }
-            }
-        });
-    }
-</script>
+            });
+        }
+    </script>
+
 
 </body>
 </html>

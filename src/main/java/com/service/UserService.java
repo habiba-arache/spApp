@@ -9,7 +9,7 @@ public class UserService {
     UserDao userDao = new UserDao();
 
     public User login(String email, String password) throws SQLException {
-        User user = userDao.getUserByEmail(email);
+        User user = userDao.findByEmail(email) ;
         if (user != null && password.equals(user.getPassword())) {
             return user;
         }

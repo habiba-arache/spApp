@@ -32,13 +32,6 @@ public class UserDao {
         }
     }
 
-    public User getUserByEmail(String email) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<User> query = session.createQuery("FROM User WHERE email = :email", User.class);
-            query.setParameter("email", email);
-            return query.uniqueResult();
-        }
-    }
 
     public void updateUser(User user) {
         Transaction transaction = null;
