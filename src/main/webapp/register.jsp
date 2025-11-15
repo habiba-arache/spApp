@@ -42,6 +42,7 @@
             font-size: 28px;
             margin-bottom: 30px;
             letter-spacing: 0.5px;
+            white-space: nowrap;
         }
 
         /* ====== LABELS & INPUTS ====== */
@@ -131,7 +132,7 @@
             const weight = document.getElementById("weight").value;
             const goalWeight = document.getElementById("goalWeight").value;
             if (weight < 0 || goalWeight < 0) {
-                alert("❌ Les valeurs de poids ne peuvent pas être négatives !");
+                alert("❌ Weight values cannot be negative!");
                 return false;
             }
             return true;
@@ -141,7 +142,7 @@
 
 <body>
 <div class="signup-container">
-    <h1>Créer un compte ✨</h1>
+    <h1>CREATE ACCOUNT✨</h1>
 
     <% String error = (String) request.getAttribute("errorMessage"); %>
     <% if (error != null) { %>
@@ -168,7 +169,7 @@
     </form>
 
     <div class="footer-link">
-        <p>Déjà inscrit ? <a href="index.jsp">Login</a></p>
+        <p>Already registered?<a href="index.jsp">Login</a></p>
     </div>
 </div>
 </body>

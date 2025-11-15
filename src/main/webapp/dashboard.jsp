@@ -221,8 +221,8 @@
 
 <header>
     <img src="images/logo.png" alt="Logo">
-    <h2>Bienvenue, <%= user.getFullName() %> 👋</h2>
-    <a href="auth?action=logout"><button>disconnect</button></a>
+    <h2>WELCOME <%= user.getFullName() %> 👋</h2>
+    <a href="auth?action=logout"><button>DISCONNECT</button></a>
 </header>
 
 <div class="container">
@@ -260,7 +260,7 @@
 
             <c:otherwise>
                 <ul>
-                    <li>Aucun entraînement pour le moment</li>
+                    <li>No workouts available yet.</li>
                 </ul>
             </c:otherwise>
         </c:choose>
@@ -288,7 +288,7 @@
             </c:when>
 
             <c:otherwise>
-                <p>Aucune recommandation disponible.</p>
+                <p>No recommendations available.</p>
             </c:otherwise>
         </c:choose>
     </section>
@@ -298,7 +298,7 @@
         <form action="dashboard" method="post">
             <input type="hidden" name="action" value="update_weight">
             <p>Current weight : <strong>${ user.getWeight()} kg</strong></p>
-            <input type="number" name="weight" step="0.1" placeholder="Entrer le nouveau poids" required>
+            <input type="number" name="weight" step="0.1" placeholder="Enter the new weight" required>
             <button type="submit">Update</button>
         </form>
     </section>
@@ -381,7 +381,7 @@
                 </c:when>
                 <c:otherwise>
                     <tr>
-                        <td colspan="2">Aucun enregistrement pour l’instant.</td>
+                        <td colspan="2">No records available at the moment.</td>
                     </tr>
                 </c:otherwise>
             </c:choose>
@@ -430,7 +430,7 @@
                         },
                         y: {
                             ticks: { color: "#CCC" },
-                            title: { display: true, text: "Poids (kg)", color: "#B388FF" }
+                            title: { display: true, text: "Weight (kg)", color: "#B388FF" }
                         }
                     }
                 }
