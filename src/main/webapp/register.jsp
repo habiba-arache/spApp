@@ -91,7 +91,7 @@
         .toggle-password {
             position: absolute;
             right: 12px;
-            top: 50%;
+            top: 30%;
             transform: translateY(-50%);
             cursor: pointer;
             font-size: 18px;
@@ -162,8 +162,8 @@
             const weight = document.getElementById("weight").value;
             const goalWeight = document.getElementById("goalWeight").value;
 
-            if (password.length < 4) {
-                alert("❌ Password must be at least 4 characters long");
+            if (password.length < 8) {
+                alert("❌ Password must be at least 8 characters long");
                 return false;
             }
 
@@ -202,7 +202,7 @@
         <label for="password">Password</label>
         <div class="password-container">
             <input id="password" type="password" name="password" required>
-            <span class="toggle-password" onclick="togglePassword()">👁️</span>
+            <span class="toggle-password" onclick="togglePassword()">👁️‍🗨️</span>
         </div>
 
         <label for="weight">Current Weight (kg)</label>
