@@ -149,26 +149,26 @@
     <% } %>
 
     <form action="auth?action=register" method="post" onsubmit="return validateForm()">
-        <label for="fullName">Nom complet</label>
+        <label for="fullName">Full Name</label>
         <input name="fullName" id="fullName" type="text" required>
 
         <label for="email">Email</label>
         <input name="email" id="email" type="email" required>
 
-        <label for="password">Mot de passe</label>
+        <label for="password">Password</label>
         <input name="password" id="password" type="password" required>
 
-        <label for="weight">Poids (kg)</label>
+        <label for="weight">Current Weight (kg)</label>
         <input name="weight" id="weight" type="number" step="0.1" min="0" required>
 
-        <label for="goalWeight">Poids cible (kg)</label>
+        <label for="goalWeight">Goal Weight (kg)</label>
         <input name="goalWeight" id="goalWeight" type="number" step="0.1" min="0" required>
 
-        <button type="submit">Créer un compte</button>
+        <button type="submit">Create account</button>
     </form>
 
     <div class="footer-link">
-        <p>Déjà inscrit ? <a href="index.jsp">Se connecter</a></p>
+        <p>Déjà inscrit ? <a href="index.jsp">Login</a></p>
     </div>
 </div>
 </body>

@@ -222,12 +222,12 @@
 <header>
     <img src="images/logo.png" alt="Logo">
     <h2>Bienvenue, <%= user.getFullName() %> 👋</h2>
-    <a href="auth?action=logout"><button>Se déconnecter</button></a>
+    <a href="auth?action=logout"><button>disconnect</button></a>
 </header>
 
 <div class="container">
     <section>
-        <h3>🏋️‍♂️ Vos entraînements</h3>
+        <h3>🏋️‍♂️ YOUR WORKOUTS </h3>
 
         <c:choose>
             <c:when test="${not empty workouts}">
@@ -248,8 +248,8 @@
                                 <span>
                                 <strong>${w.name}</strong> — ${w.description}
                                 <c:choose>
-                                    <c:when test="${w.complete}">✔ Terminé</c:when>
-                                    <c:otherwise>⏳ En cours</c:otherwise>
+                                    <c:when test="${w.complete}">✔ Complete</c:when>
+                                    <c:otherwise>⏳ In progress </c:otherwise>
                                 </c:choose>
                             </span>
                             </form>
@@ -268,7 +268,7 @@
 
 
     <section>
-        <h3>🥗 Vos recommandations alimentaires</h3>
+        <h3>🥗 YOUR DIET </h3>
 
         <c:choose>
             <c:when test="${not empty diets}">
@@ -294,12 +294,12 @@
     </section>
 
     <section>
-        <h3>⚖️ Mettre à jour votre poids</h3>
+        <h3>⚖️ Update your weight </h3>
         <form action="dashboard" method="post">
             <input type="hidden" name="action" value="update_weight">
-            <p>Poids actuel : <strong>${ user.getWeight()} kg</strong></p>
+            <p>Current weight : <strong>${ user.getWeight()} kg</strong></p>
             <input type="number" name="weight" step="0.1" placeholder="Entrer le nouveau poids" required>
-            <button type="submit">Mettre à jour</button>
+            <button type="submit">Update</button>
         </form>
     </section>
 
@@ -314,59 +314,61 @@
     <% if (Math.abs(diff) < 0.5) { %>
     <!-- 🟢 Cas 1 : Poids idéal -->
     <section style="background: #e8f5e9; border-left: 6px solid #2e7d32; padding: 20px; border-radius: 10px;">
-        <h3 style="color: #1b5e20;">🎉 Félicitations <%= user.getFullName() %> !</h3>
+        <h3 style="color: #1b5e20;">🎉 Congratulations <%= user.getFullName() %>!</h3>
         <p style="font-size: 16px; color: #333;">
-            Vous avez atteint votre poids idéal de
-            <strong><%= goalWeight %> kg</strong> ! 🏆
+            You have reached your ideal weight of
+            <strong><%= goalWeight %> kg</strong>! 🏆
         </p>
         <p style="font-size: 15px; color: #555;">
-            Continuez à suivre le même programme d’entraînement et le même régime alimentaire
-            pour <strong>maintenir</strong> votre forme actuelle. 👏
+            Keep following the same training program and diet plan
+            to <strong>maintain</strong> your current shape. 👏
         </p>
     </section>
 
     <% } else if (diff > 0.5) { %>
     <!-- 🟡 Cas 2 : En surpoids -->
     <section style="background: #fffde7; border-left: 6px solid #fbc02d; padding: 20px; border-radius: 10px;">
-        <h3 style="color: #f57f17;">⚖ Objectif en cours...</h3>
+        <h3 style="color: #f57f17;">⚖ Goal in progress...</h3>
         <p style="font-size: 16px; color: #333;">
-            Votre poids actuel est de <strong><%= currentWeight %> kg</strong>.<br>
-            Il vous reste <strong><%= String.format("%.1f", diff) %> kg</strong> à perdre pour atteindre votre objectif de
+            Your current weight is <strong><%= currentWeight %> kg</strong>.<br>
+            You still need to lose <strong><%= String.format("%.1f", diff) %> kg</strong> to reach your goal of
             <strong><%= goalWeight %> kg</strong>.
         </p>
         <p style="font-size: 15px; color: #555;">
-            Continuez vos efforts 💪 — votre discipline vous rapproche de votre objectif jour après jour.
+            Keep going 💪 — your discipline is bringing you closer to your goal every day.
         </p>
     </section>
 
-    <% } else { %>
+
+<% } else { %>
     <!-- 🔴 Cas 3 : En sous-poids -->
     <section style="background: #ffebee; border-left: 6px solid #d32f2f; padding: 20px; border-radius: 10px;">
-        <h3 style="color: #b71c1c;">🍽 Attention <%= user.getFullName() %> !</h3>
+        <h3 style="color: #b71c1c;">🍽 Be careful <%= user.getFullName() %>!</h3>
         <p style="font-size: 16px; color: #333;">
-            Votre poids actuel est de <strong><%= currentWeight %> kg</strong>, soit environ
-            <strong><%= String.format("%.1f", -diff) %> kg</strong> en dessous de votre poids cible de
+            Your current weight is <strong><%= currentWeight %> kg</strong>, which is about
+            <strong><%= String.format("%.1f", -diff) %> kg</strong> below your target weight of
             <strong><%= goalWeight %> kg</strong>.
         </p>
         <p style="font-size: 15px; color: #555;">
-            Pensez à <strong>augmenter légèrement votre apport calorique</strong> et à consulter un diététicien si nécessaire
-            pour stabiliser votre poids. 🌿
+            Consider <strong>increasing your calorie intake slightly</strong> and consult a dietitian if needed
+            to stabilize your weight. 🌿
         </p>
     </section>
-    <% } %>
+
+<% } %>
 
     <section>
-        <h3>📈 Évolution de votre poids</h3>
+        <h3>📈 Weight progress </h3>
 
         <div class="chart-container">
             <canvas id="weightChart"></canvas>
         </div>
 
-        <h4>Historique</h4>
+        <h4>history</h4>
         <table>
             <tr>
                 <th>Date</th>
-                <th>Poids (kg)</th>
+                <th>weight (kg)</th>
             </tr>
              <c:choose>
                 <c:when test="${not empty weights}">
@@ -407,7 +409,7 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Poids (kg)',
+                        label: 'Weight (kg)',
                         data: data,
                         fill: true,
                         borderColor: '#B388FF',
