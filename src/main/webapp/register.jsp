@@ -71,6 +71,35 @@
             box-shadow: 0 0 6px rgba(179, 136, 255, 0.4);
         }
 
+        /* ====== PASSWORD TOGGLE ====== */
+        .password-container {
+            position: relative;
+        }
+
+        .password-container input {
+            width: 100%;
+            padding: 12px 40px 12px 12px;
+            border-radius: 10px;
+            border: 1px solid #3C3C3C;
+            background-color: #1C1C1C;
+            color: #F5F5F5;
+            font-size: 14px;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 1;
+            user-select: none;
+        }
+
+
         /* ====== BUTTON ====== */
         button {
             width: 100%;
@@ -129,13 +158,26 @@
 
     <script>
         function validateForm() {
+            const password = document.getElementById("password").value;
             const weight = document.getElementById("weight").value;
             const goalWeight = document.getElementById("goalWeight").value;
+
+            if (password.length < 4) {
+                alert("❌ Password must be at least 4 characters long");
+                return false;
+            }
+
             if (weight < 0 || goalWeight < 0) {
                 alert("❌ Weight values cannot be negative!");
                 return false;
             }
+
             return true;
+        }
+
+        function togglePassword() {
+            const passwordInput = document.getElementById("password");
+            passwordInput.type = passwordInput.type === "password" ? "text" : "password";
         }
     </script>
 </head>
@@ -146,10 +188,11 @@
 
     <% String error = (String) request.getAttribute("errorMessage"); %>
     <% if (error != null) { %>
-    <div class="error-message"><%= error %></div>
+        <div class="error-message"><%= error %></div>
     <% } %>
 
     <form action="auth?action=register" method="post" onsubmit="return validateForm()">
+
         <label for="fullName">Full Name</label>
         <input name="fullName" id="fullName" type="text" required>
 
@@ -157,7 +200,10 @@
         <input name="email" id="email" type="email" required>
 
         <label for="password">Password</label>
-        <input name="password" id="password" type="password" required>
+        <div class="password-container">
+            <input id="password" type="password" name="password" required>
+            <span class="toggle-password" onclick="togglePassword()">👁️</span>
+        </div>
 
         <label for="weight">Current Weight (kg)</label>
         <input name="weight" id="weight" type="number" step="0.1" min="0" required>
@@ -169,7 +215,7 @@
     </form>
 
     <div class="footer-link">
-        <p>Already registered?<a href="index.jsp">Login</a></p>
+        <p>Already registered? <a href="index.jsp">Login</a></p>
     </div>
 </div>
 </body>

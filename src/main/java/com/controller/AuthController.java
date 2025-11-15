@@ -39,6 +39,14 @@ public class AuthController extends HttpServlet {
     }
     private void registerUser(HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+        String password = request.getParameter("password");
+
+        //  Validate password length BEFORE creating the user
+        if (password == null || password.length() < 4) {
+            request.setAttribute("errorMessage", "Password must be at least 4 characters long.");
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+            return; // stop execution
+        }
 
         User user = new User();
         user.setFullName(request.getParameter("fullName"));
