@@ -1,11 +1,14 @@
-⚙️ Database Configuration (Hibernate)
-***Before running the project, you must configure your MySQL connection settings in the file:
+## ⚙️ Database Configuration (Hibernate)
+
+Before running the project, you must configure your MySQL connection settings in the file:
 
    src/main/resources/hibernate.cfg.xml
 
+---
 
-📄 Default Configuration File:
+## 📄 Default Configuration File
 
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-configuration PUBLIC
         "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
@@ -29,7 +32,7 @@
         <mapping class="com.model.Diet"/>
     </session-factory>
 </hibernate-configuration>
-
+```
 🔧 Required Changes Before Running the Project
 
 👉 You must update the following fields to match your local MySQL configuration:
@@ -38,17 +41,17 @@
 
 ***Set the name of the database you created:
 
-<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/YOUR_DATABASE_NAME</property>
+```<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/YOUR_DATABASE_NAME</property>```
 
 2️⃣ MySQL Username:
 
 ***Replace with your MySQL username:
 
-<property name="hibernate.connection.username">YOUR_USERNAME</property>
+```<property name="hibernate.connection.username">YOUR_USERNAME</property>```
 
 3️⃣ MySQL Password:
 
 ***Replace with your MySQL password:
 
-<property name="hibernate.connection.password">YOUR_PASSWORD</property>
+```<property name="hibernate.connection.password">YOUR_PASSWORD</property>```
 
